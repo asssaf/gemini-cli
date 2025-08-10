@@ -12,3 +12,4 @@ RUN adduser -u 1000 -D user
 USER user
 WORKDIR /home/user
 
+ENTRYPOINT ["gemini"]
