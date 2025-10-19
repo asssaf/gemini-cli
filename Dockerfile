@@ -10,6 +10,6 @@ RUN npm install -g @google/gemini-cli
 RUN adduser -u 1000 -D user
 
 USER user
-WORKDIR /home/user
+WORKDIR /home/user/work
 
 ENTRYPOINT ["gemini"]
