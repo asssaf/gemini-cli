@@ -14,4 +14,5 @@ docker run --rm -it \
 	-v ${HOME}/.gemini:/home/user/.gemini \
 	-v ${PWD}:/home/user/work \
 	-u $(id -u):$(id -g) \
+	-e NO_BROWSER=true \
 	$IMAGE "$@"
