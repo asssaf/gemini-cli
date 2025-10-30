@@ -1,6 +1,7 @@
-FROM node:25-alpine3.22
+FROM node:25-bookworm-slim
 
-RUN apk add --no-cache sudo git procps bash
+RUN apt update
+RUN apt install -y sudo git procps
 
 RUN npm install -g @google/gemini-cli
 
