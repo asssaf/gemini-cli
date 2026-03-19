@@ -17,4 +17,6 @@ docker run --rm -it \
 	-v ${PWD}:/home/${GUEST_USER}/work \
 	-u $(id -u):$(id -g) \
 	-e NO_BROWSER=true \
+	-e TERM=$TERM \
+	-e COLORTERM=$COLORTERM \
 	$IMAGE "$@"
