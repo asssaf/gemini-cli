@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 FROM node:25-bookworm-slim
 
 RUN apt update
@@ -16,10 +17,13 @@ ENTRYPOINT ["gemini"]
 # install extensions
 ARG CONDUCTOR_VERSION=0.4.1
 
-RUN mkdir -p /home/$GUEST_USER/.gemini/extensions/conductor
-RUN curl -sLo - "https://github.com/gemini-cli-extensions/conductor/releases/download/conductor-v${CONDUCTOR_VERSION}/conductor-release.tar.gz" | tar xz -C /home/$GUEST_USER/.gemini/extensions/conductor/
+ENV CONDUCTOR_DIR="/home/$GUEST_USER/.local/conductor/${CONDUCTOR_VERSION}"
+ENV EXTENSIONS_DIR="/home/$GUEST_USER/.gemini/extensions"
 
-RUN cat > /home/$GUEST_USER/.gemini/extensions/conductor/.gemini-extension-install.json <<EOF
+RUN mkdir -p "$CONDUCTOR_DIR"
+RUN curl -sLo - "https://github.com/gemini-cli-extensions/conductor/releases/download/conductor-v${CONDUCTOR_VERSION}/conductor-release.tar.gz" | tar xz -C "$CONDUCTOR_DIR"
+
+RUN cat > "$CONDUCTOR_DIR/.gemini-extension-install.json" <<EOF
 {
   "source": "https://github.com/gemini-cli-extensions/conductor",
   "type": "github-release",
@@ -27,11 +31,11 @@ RUN cat > /home/$GUEST_USER/.gemini/extensions/conductor/.gemini-extension-insta
 }
 EOF
 
-RUN cat > /home/$GUEST_USER/.gemini/extensions/extension-enablement.json  <<EOF
+RUN cat > "$CONDUCTOR_DIR/extension-enablement.json"  <<EOF
 {
   "conductor": {
     "overrides": [
-      "/home/node/*"
+      "/home/$GUEST_USER/*"
     ]
   }
 }
