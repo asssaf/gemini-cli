@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:25-bookworm-slim
+FROM node:25-bookworm-slim AS base
 
 RUN apt update
 RUN apt install -y sudo git procps curl
@@ -13,6 +13,9 @@ USER $GUEST_USER
 WORKDIR /home/$GUEST_USER/work
 
 ENTRYPOINT ["gemini"]
+
+
+FROM base AS conductor
 
 # install extensions
 ARG CONDUCTOR_VERSION=0.4.1
