@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM node:25-bookworm-slim AS base
+FROM node:lts-trixie-slim AS base
 
 RUN apt update
 RUN apt install -y sudo git procps curl
