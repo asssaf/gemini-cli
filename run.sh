@@ -19,4 +19,5 @@ docker run --rm -it \
 	-e NO_BROWSER=true \
 	-e TERM=$TERM \
 	-e COLORTERM=$COLORTERM \
+	-e TZ="America/Los_Angeles" \
 	$IMAGE "$@"
