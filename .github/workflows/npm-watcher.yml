@@ -1,0 +1,42 @@
+name: NPM Watcher
+
+on:
+  schedule:
+    - cron: '0 12 * * *' # 12:00 UTC = 04:00 PST / 05:00 PDT
+  workflow_dispatch:
+
+jobs:
+  check-npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          # To trigger Docker CI from this workflow, you must use a PAT instead of GITHUB_TOKEN
+          token: ${{ secrets.PAT_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Check for new version
+        id: npm
+        run: |
+          VERSION=$(npm view @google/gemini-cli version)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+          if git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "Version v$VERSION already tagged."
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "New version detected: v$VERSION"
+          fi
+
+      - name: Create Tag
+        if: steps.npm.outputs.exists == 'false'
+        run: |
+          VERSION=${{ steps.npm.outputs.version }}
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "v$VERSION"
+          git push origin "v$VERSION"

@@ -4,7 +4,8 @@ FROM node:lts-trixie-slim AS base
 RUN apt update
 RUN apt install -y sudo git procps curl
 
-RUN npm install -g @google/gemini-cli
+ARG GEMINI_VERSION=latest
+RUN npm install -g @google/gemini-cli@${GEMINI_VERSION}
 
 ARG GUEST_USER=node
 RUN echo "$GUEST_USER ALL=(ALL:ALL) NOPASSWD: ALL" > /etc/sudoers.d/user
