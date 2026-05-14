@@ -8,7 +8,7 @@ set -eu
 mkdir -p "${HOME}/.gemini"
 mkdir -p "${HOME}/.config/configstore/update-notifier-\@google"
 
-: ${IMAGE:=asssaf/gemini-cli}
+: ${IMAGE:=ghcr.io/asssaf/gemini-cli:latest}
 : ${GUEST_USER:=node}
 
 docker run --rm -it \
