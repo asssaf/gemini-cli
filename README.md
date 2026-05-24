@@ -1,4 +1,6 @@
 # gemini-cli
+## ⚠️ DEPRECATED
+Google has discontinued gemini-cli in favor of antigravity-cli. See https://github.com/asssaf/antigravity-cli for a similar container for antigravity-cli.
 
 ## Usage
 
